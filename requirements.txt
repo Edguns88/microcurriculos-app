@@ -1,6 +1,0 @@
-streamlit
-python-docx
-pymupdf
-pdfplumber
-unidecode
-openpyxl
