@@ -77,15 +77,15 @@ if st.button("Generar microcurrículos"):
                             "error": str(e)
                         })
 
-                diag_path = output_dir / "diagnostico_microcurriculos.json"
-                diag_path.write_text(
-                    json.dumps(diagnosticos, ensure_ascii=False, indent=2),
-                    encoding="utf-8"
-                )
+                %diag_path = output_dir / "diagnostico_microcurriculos.json"
+                %diag_path.write_text(
+                    %json.dumps(diagnosticos, ensure_ascii=False, indent=2),
+                    %encoding="utf-8"
+                %)
 
-                st.success("Proceso terminado.")
-                st.write("Diagnóstico:")
-                st.json(diagnosticos)
+                %st.success("Proceso terminado.")
+                %st.write("Diagnóstico:")
+                %st.json(diagnosticos)
 
                 if len(archivos_generados) == 1:
                     archivo = archivos_generados[0]
