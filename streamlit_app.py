@@ -19,7 +19,7 @@ st.write(
     Esta herramienta ha sido desarrollada para apoyar el proceso de actualización,
     estandarización y consolidación de los microcurrículos del Programa de Ciencia de Datos
     del Departamento de Matemáticas de la Universidad Externado de Colombia, en el marco
-    de las actividades asociadas a los procesos de autoevaluación y acreditación académica.
+    de las actividades asociadas a los procesos de acreditación académica.
 
     La aplicación toma como insumos la plantilla institucional vigente, la Matriz de
     Alineación Curricular y los microcurrículos históricos en formato PDF, con el fin de
