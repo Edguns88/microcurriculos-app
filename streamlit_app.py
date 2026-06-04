@@ -6,6 +6,15 @@ import json
 
 from motor_microcurriculos import procesar_pdf
 
+from PIL import Image
+
+logo = Image.open("logo_ciencia_datos.png")
+
+st.image(
+    logo,
+    width=180
+)
+
 st.set_page_config(
     page_title="Automatizador de Microcurrículos",
     page_icon="📄",
