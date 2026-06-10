@@ -24,13 +24,6 @@ with col1:
 
 with col2:
     st.title("Automatizador de Microcurrículos")
-    st.markdown(
-        """
-        **Departamento de Matemáticas**  
-        **Programa de Ciencia de Datos**  
-        **Universidad Externado de Colombia**
-        """
-    )
 st.write(
     """
     Esta herramienta ha sido desarrollada para apoyar el proceso de actualización,
