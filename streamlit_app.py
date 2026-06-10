@@ -2,9 +2,9 @@ import streamlit as st
 from pathlib import Path
 import tempfile
 import zipfile
-import json
 
 from motor_microcurriculos import procesar_pdf
+
 
 st.set_page_config(
     page_title="Automatizador de Microcurrículos",
@@ -12,16 +12,27 @@ st.set_page_config(
     layout="centered"
 )
 
-st.caption(
-    "Departamento de Matemáticas • Programa de Ciencia de Datos • Universidad Externado de Colombia"
-)
+
+# ------------------------------------------------------------
+# Encabezado institucional
+# ------------------------------------------------------------
+
 col1, col2 = st.columns([1, 3])
 
 with col1:
     st.image("logo_ciencia_datos.png", width=140)
 
 with col2:
-st.title("Automatizador de Microcurrículos")
+    st.title("Automatizador de Microcurrículos")
+    st.markdown(
+        """
+        **Departamento de Matemáticas**  
+        **Programa de Ciencia de Datos**  
+        **Universidad Externado de Colombia**
+        """
+    )
+
+
 st.write(
     """
     Esta herramienta ha sido desarrollada para apoyar el proceso de actualización,
@@ -40,7 +51,15 @@ st.info(
     "Los archivos PDF que se carguen deben corresponder a microcurrículos existentes "
     "y aprobados previamente al proceso de actualización y acreditación."
 )
-st.warning("Versión de prueba. Revisa el documento generado antes de usarlo oficialmente.")
+
+st.warning(
+    "Versión de prueba. Revisa el documento generado antes de usarlo oficialmente."
+)
+
+
+# ------------------------------------------------------------
+# Carga de archivos
+# ------------------------------------------------------------
 
 plantilla = st.file_uploader(
     "1. Sube la plantilla Word institucional (.docx)",
@@ -53,12 +72,17 @@ matriz = st.file_uploader(
 )
 
 pdfs = st.file_uploader(
-    "3. Sube uno o varios PDF de microcurrículos",
+    "3. Sube uno o varios PDF de microcurrículos históricos previos al proceso de acreditación",
     type=["pdf"],
     accept_multiple_files=True
 )
 
-if st.button("Generar microcurrículos"):
+
+# ------------------------------------------------------------
+# Procesamiento
+# ------------------------------------------------------------
+
+if st.button("Generar microcurrículo(s)"):
     if plantilla is None:
         st.error("Primero debes subir la plantilla Word.")
     elif matriz is None:
@@ -85,36 +109,49 @@ if st.button("Generar microcurrículos"):
                 output_dir = tmpdir / "salidas"
                 output_dir.mkdir(exist_ok=True)
 
-                diagnosticos = []
                 archivos_generados = []
+                errores = []
 
                 for pdf_path in pdf_paths:
                     try:
-                        salida, diag = procesar_pdf(template_path, pdf_path, output_dir, matriz_path=matriz_path)
+                        salida, _ = procesar_pdf(
+                            template_path,
+                            pdf_path,
+                            output_dir,
+                            matriz_path=matriz_path
+                        )
                         archivos_generados.append(salida)
-                        diagnosticos.append(diag)
                     except Exception as e:
-                        diagnosticos.append({
-                            "pdf": pdf_path.name,
-                            "error": str(e)
-                        })
+                        errores.append(f"{pdf_path.name}: {e}")
 
-                if len(archivos_generados) == 1:
+                if errores:
+                    st.error("Algunos documentos no pudieron procesarse.")
+                    for error in errores:
+                        st.write(f"• {error}")
+
+                if not archivos_generados:
+                    st.warning("No se generó ningún documento Word.")
+                elif len(archivos_generados) == 1:
                     archivo = archivos_generados[0]
+                    st.success("Microcurrículo generado correctamente.")
+
                     st.download_button(
-                        label="Descargar microcurrículo Word",
+                        label="📄 Descargar microcurrículo Word",
                         data=archivo.read_bytes(),
                         file_name=archivo.name,
                         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     )
                 else:
                     zip_path = tmpdir / "microcurriculos_diligenciados.zip"
+
                     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
-                        for archivo in output_dir.glob("*"):
+                        for archivo in archivos_generados:
                             z.write(archivo, arcname=archivo.name)
 
+                    st.success("Microcurrículos generados correctamente.")
+
                     st.download_button(
-                        label="Descargar ZIP con documentos generados",
+                        label="📦 Descargar ZIP con microcurrículos",
                         data=zip_path.read_bytes(),
                         file_name="microcurriculos_diligenciados.zip",
                         mime="application/zip"
