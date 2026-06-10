@@ -19,7 +19,20 @@ st.title("Automatizador de Microcurrículos")
 st.caption(
     "Departamento de Matemáticas • Programa de Ciencia de Datos • Universidad Externado de Colombia"
 )
+col1, col2 = st.columns([1, 3])
 
+with col1:
+    st.image("logo_ciencia_datos.png", width=140)
+
+with col2:
+    st.title("Automatizador de Microcurrículos")
+    st.markdown(
+        """
+        **Departamento de Matemáticas**  
+        **Programa de Ciencia de Datos**  
+        **Universidad Externado de Colombia**
+        """
+    )
 st.write(
     """
     Esta herramienta ha sido desarrollada para apoyar el proceso de actualización,
