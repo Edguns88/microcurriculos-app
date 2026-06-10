@@ -12,8 +12,6 @@ st.set_page_config(
     layout="centered"
 )
 
-st.title("Automatizador de Microcurrículos")
-
 st.caption(
     "Departamento de Matemáticas • Programa de Ciencia de Datos • Universidad Externado de Colombia"
 )
@@ -23,6 +21,7 @@ with col1:
     st.image("logo_ciencia_datos.png", width=140)
 
 with col2:
+st.title("Automatizador de Microcurrículos")
 st.write(
     """
     Esta herramienta ha sido desarrollada para apoyar el proceso de actualización,
