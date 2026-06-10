@@ -23,7 +23,6 @@ with col1:
     st.image("logo_ciencia_datos.png", width=140)
 
 with col2:
-    st.title("Automatizador de Microcurrículos")
 st.write(
     """
     Esta herramienta ha sido desarrollada para apoyar el proceso de actualización,
