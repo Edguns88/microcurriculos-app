@@ -12,7 +12,13 @@ st.set_page_config(
     layout="centered"
 )
 
+st.image("logo_ciencia_datos.png", width=220)
+
 st.title("Automatizador de Microcurrículos")
+
+st.caption(
+    "Departamento de Matemáticas • Programa de Ciencia de Datos • Universidad Externado de Colombia"
+)
 
 st.write(
     """
